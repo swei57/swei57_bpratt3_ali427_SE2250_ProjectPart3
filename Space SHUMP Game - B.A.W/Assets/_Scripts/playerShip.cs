@@ -11,7 +11,7 @@ public class playerShip : MonoBehaviour {
     public float shieldLevel = 1;
     // Use this for initialization
     private void Start(){
-        transform.position= new Vector3(0, 0, 10);
+        transform.position= new Vector3(0, -25, 10);
     }
     void Awake() {
         if(ship == null){

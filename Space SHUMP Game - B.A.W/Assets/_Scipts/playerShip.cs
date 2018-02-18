@@ -10,6 +10,9 @@ public class playerShip : MonoBehaviour {
     public float pitchMult = 30;
     public float shieldLevel = 1;
     // Use this for initialization
+    private void Start(){
+        transform.position= new Vector3(0, 0, 10);
+    }
     void Awake() {
         if(ship == null){
             ship = this;   //set ship singleton

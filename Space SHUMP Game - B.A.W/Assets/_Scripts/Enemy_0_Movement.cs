@@ -14,7 +14,7 @@ public class Enemy_0_Movement : Enemy {
 
 	// Update is called once per frame
 	public override void Update () {
-		Move ();
+        base.Update();
 	}
 		
 	public override void Move (){

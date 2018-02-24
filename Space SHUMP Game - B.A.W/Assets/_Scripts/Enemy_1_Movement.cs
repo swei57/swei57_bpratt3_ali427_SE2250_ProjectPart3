@@ -17,7 +17,7 @@ public class Enemy_1_Movement : Enemy {
 
 	// Update is called once per frame
 	public override void Update () {
-		Move ();
+        base.Update();
 	}
 	public override void Move (){
 		ChooseDirection.Set (x, y, z);

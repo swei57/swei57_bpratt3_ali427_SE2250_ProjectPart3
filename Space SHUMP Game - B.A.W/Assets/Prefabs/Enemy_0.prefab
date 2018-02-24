@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4539194983913422}
   - component: {fileID: 54403596747988750}
   - component: {fileID: 65643735408300130}
-  - component: {fileID: 114753299352737342}
+  - component: {fileID: 114154349139455548}
   m_Layer: 0
   m_Name: Enemy_0
   m_TagString: Untagged
@@ -373,7 +373,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114753299352737342
+--- !u!114 &114154349139455548
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -384,6 +384,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95ee53d28007949fb99d591d5da1659a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0.1
+  fireRate: 0.3
+  health: 10
+  score: 100
 --- !u!136 &136253581568106516
 CapsuleCollider:
   m_ObjectHideFlags: 1

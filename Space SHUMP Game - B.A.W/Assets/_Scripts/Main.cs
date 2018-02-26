@@ -20,6 +20,14 @@ public class Main : MonoBehaviour {
         Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
     }
 
+    void OnDrawGizmos()
+    {
+        if (!Application.isPlaying) return;
+        Vector3 boundSize = new Vector3(bndCheck.cameraWidth * 2, bndCheck.cameraHeight * 2, 0.1f);
+        Gizmos.DrawWireCube(Vector3.zero, boundSize);
+    }
+
+
     public void SpawnEnemy()
     {
         int ndx = Random.Range(0, prefabEnemies.Length);

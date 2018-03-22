@@ -8,12 +8,9 @@ public class playerShip : MonoBehaviour {
     public float speed = 30;
     public float rollMult = -45;
 	public float pitchMult = 30;
+	public float gameRestartDelay = 5f;
 	private GameObject lastTriggerGo = null;
-	private float _shieldLevel = 1; //reference to the last triggering Gameobject
-
-
-
-
+	private float _shieldLevel = 4; //reference to the last triggering Gameobject
 
     // Use this for initialization
     private void Start(){
@@ -45,8 +42,6 @@ public class playerShip : MonoBehaviour {
 	void OnTriggerEnter (Collider other){
 		Transform rootT = other.gameObject.transform.root;
 		GameObject go = rootT.gameObject;
-
-		print ("fml:kms");
 		print(go.name);
 
 		if (go == lastTriggerGo) {
@@ -55,7 +50,6 @@ public class playerShip : MonoBehaviour {
 		lastTriggerGo = go;
 
 		if (go.tag == "Enemy") {
-			print ("lol");
 			shieldLevel--;
 			Destroy (go);
 
@@ -74,6 +68,7 @@ public class playerShip : MonoBehaviour {
 
 			if (value < 0) {
 				Destroy (this.gameObject);
+				Main.S.DelayedRestart(gameRestartDelay);
 			}
 		}
 	}

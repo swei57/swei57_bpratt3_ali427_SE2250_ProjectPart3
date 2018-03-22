@@ -7,11 +7,18 @@ public class playerShip : MonoBehaviour {
     static public playerShip ship;   //setting ship default vals
     public float speed = 30;
     public float rollMult = -45;
-    public float pitchMult = 30;
-    public float shieldLevel = 1;
+	public float pitchMult = 30;
+	private GameObject lastTriggerGo = null;
+	private float _shieldLevel = 1; //reference to the last triggering Gameobject
+
+
+
+
+
     // Use this for initialization
     private void Start(){
         transform.position= new Vector3(0, -25, 10);
+		print ("okay");
     }
     void Awake() {
         if(ship == null){
@@ -34,4 +41,41 @@ public class playerShip : MonoBehaviour {
 
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult,0); //ship rotation
     }
+
+	void OnTriggerEnter (Collider other){
+		Transform rootT = other.gameObject.transform.root;
+		GameObject go = rootT.gameObject;
+
+		print ("fml:kms");
+		print(go.name);
+
+		if (go == lastTriggerGo) {
+			return;
+		}
+		lastTriggerGo = go;
+
+		if (go.tag == "Enemy") {
+			print ("lol");
+			shieldLevel--;
+			Destroy (go);
+
+		} else {
+			print ("Triggered by non-Enemy: " + go.name);
+		}
+	}
+
+	public float shieldLevel{
+		get {
+			return (_shieldLevel);
+		}
+		set {
+			_shieldLevel = Mathf.Min (value, 4);
+			//if the shield is going to be set to less than zero
+
+			if (value < 0) {
+				Destroy (this.gameObject);
+			}
+		}
+	}
+
 }

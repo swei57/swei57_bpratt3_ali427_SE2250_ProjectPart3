@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33386449319454654}
   - component: {fileID: 136801094490369756}
   - component: {fileID: 23127669953907772}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Right Shooter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,9 +41,9 @@ GameObject:
   - component: {fileID: 65643735408300130}
   - component: {fileID: 114154349139455548}
   - component: {fileID: 114669851135371934}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy_0
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 33198249377689630}
   - component: {fileID: 136587782586443818}
   - component: {fileID: 23344343288613746}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Left Shooter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 33307882424714682}
   - component: {fileID: 136253581568106516}
   - component: {fileID: 23965619545937148}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 33907972433739976}
   - component: {fileID: 65710852100400884}
   - component: {fileID: 23214740324317478}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wings
   m_TagString: Untagged
   m_Icon: {fileID: 0}

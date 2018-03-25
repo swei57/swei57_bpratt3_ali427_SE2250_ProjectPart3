@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class Main : MonoBehaviour {
     static public Main S;
-
+    static Dictionary<WeaponType, WeaponDefinition> WEAP_DICT;
     [Header("Set in Inspector")]
     public GameObject[] prefabEnemies;
     public float enemySpawnPerSecond = 0.5f;
     public float enemyDefaultPadding = 1.5f;
-
+    public WeaponDefinition[] weaponDefinitions;
     private BoundsCheck bndCheck;
 
     private void Awake()
@@ -18,6 +18,13 @@ public class Main : MonoBehaviour {
         S = this;
         bndCheck = GetComponent<BoundsCheck>();
         Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
+
+        //generic dictionary with WeaponType as the key...
+        WEAP_DICT = new Dictionary<WeaponType, WeaponDefinition>();
+        foreach(WeaponDefinition def in weaponDefinitions)
+        {
+            WEAP_DICT[def.type] = def;
+        }
     }
 
     void OnDrawGizmos()
@@ -57,5 +64,17 @@ public class Main : MonoBehaviour {
 	public void Restart(){
 		SceneManager.LoadScene ("_Scene_0");
 	}
+
+    static public WeaponDefinition GetWeaponDefinition(WeaponType wt)
+    {
+        //check if key exists
+        //throw error if key doesnt exist
+        if (WEAP_DICT.ContainsKey(wt))
+        {
+            return (WEAP_DICT[wt]);
+        }
+        //returns new wt with no selected weapon
+        return (new WeaponDefinition());
+    }
 
 }

@@ -8,9 +8,14 @@ public class playerShip : MonoBehaviour {
     public float speed = 30;
     public float rollMult = -45;
 	public float pitchMult = 30;
-	public float gameRestartDelay = 5f;
+	public float gameRestartDelay = 2f;
+    public GameObject projectilePrefab;
+    public float projectileSpeed = 40;
 	private GameObject lastTriggerGo = null;
 	private float _shieldLevel = 4; //reference to the last triggering Gameobject
+
+    public delegate void WeaponFireDelegate();
+    public WeaponFireDelegate fireDelegate;
 
     // Use this for initialization
     private void Start(){
@@ -24,6 +29,7 @@ public class playerShip : MonoBehaviour {
         else{
             Debug.LogError("Hero.Awake() - Attempted to assign second Hero.Ship!");
         }
+        //fireDelegate += TempFire; 
     }
 
     // Update is called once per frame
@@ -37,7 +43,23 @@ public class playerShip : MonoBehaviour {
         transform.position = position;
 
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult,0); //ship rotation
+         //allow ship to fire at enemies using delegate (spacebar)
+        if (Input.GetAxis("Jump") == 1 && fireDelegate != null) {
+            fireDelegate();
+        }
+
     }
+  /*  void TempFire() //firing bullets
+    {
+        GameObject projGO = Instantiate<GameObject>(projectilePrefab);
+        projGO.transform.position = transform.position;
+        Rigidbody rigidB = projGO.GetComponent<Rigidbody>();
+        //rigidB.velocity = Vector3.up * projectileSpeed;
+        Projectile proj = projGO.GetComponent<Projectile>();
+        proj.type = WeaponType.blaster;
+        float tSpeed = Main.GetWeaponDefinition(proj.type).velocity;
+        rigidB.velocity = Vector3.up * tSpeed;
+    }*/
 
 	void OnTriggerEnter (Collider other){
 		Transform rootT = other.gameObject.transform.root;

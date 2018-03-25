@@ -31,5 +31,18 @@ public class Enemy : MonoBehaviour {
 
 	public virtual void Move (){
 	}
-		
+    private void OnCollisionEnter(Collision coll)
+    {
+        GameObject otherGO = coll.gameObject;
+        if(otherGO.tag == "ProjectileHero")
+        {
+            Destroy(otherGO); //gudbye profile
+            Destroy(gameObject); //gudbye enemy
+        }
+        else
+        {
+            print("Enemy hit by non-ProjectileHero: " + otherGO.name);
+        }
+    }
+
 }

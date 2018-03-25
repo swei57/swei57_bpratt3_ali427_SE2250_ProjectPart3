@@ -10,6 +10,8 @@ TagManager:
   - Projectile Enemy
   - PowerUp
   - PowerUpBox
+  - PlayerShip
+  - ProjectilePlayerShip
   layers:
   - Default
   - TransparentFX
@@ -24,7 +26,7 @@ TagManager:
   - ProjectileHero
   - ProjectileEnemy
   - PowerUp
-  - 
+  - PlayerShip
   - 
   - 
   - 

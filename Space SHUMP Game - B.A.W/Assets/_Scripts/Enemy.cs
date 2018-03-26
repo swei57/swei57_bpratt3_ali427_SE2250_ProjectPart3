@@ -34,6 +34,29 @@ public class Enemy : MonoBehaviour {
     private void OnCollisionEnter(Collision coll)
     {
         GameObject otherGO = coll.gameObject;
+        switch (otherGO.tag)
+        {
+            case "ProjectileHero":
+                Projectile p = otherGO.GetComponent<Projectile>();
+                if (!bndCheck.isOnScreen)   //destroy projectile if enemy is off screen
+                {
+                    Destroy(otherGO);
+                    break;
+                }
+                //hurt enemy
+                health -= Main.GetWeaponDefinition(p.type).damageOnHit;
+                if(health <= 0)
+                {
+                    // Destroy enemy if health at or below 0
+                    Destroy(this.gameObject);
+                }
+                Destroy(otherGO);
+                break;
+            default:
+                print("Enemy hit by non-ProjectileHero: " + otherGO.name);
+                break;
+        }
+        /*
         if(otherGO.tag == "ProjectileHero")
         {
             Destroy(otherGO); //gudbye profile
@@ -43,6 +66,7 @@ public class Enemy : MonoBehaviour {
         {
             print("Enemy hit by non-ProjectileHero: " + otherGO.name);
         }
+        */
     }
 
 }

@@ -53,6 +53,7 @@ public class Main : MonoBehaviour {
         pos.y = bndCheck.cameraHeight + enemyPadding;
         pos.z = 10;
         go.transform.position = pos;
+        go.GetComponent<Enemy>().health = Random.Range(2, 10);
 
         Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
     }

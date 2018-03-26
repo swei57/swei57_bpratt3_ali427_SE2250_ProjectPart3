@@ -145,6 +145,16 @@ public class Weapon : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (Input.GetKeyDown("x"))
+        {
+            if(_type == WeaponType.blaster)
+            {
+                SetType(WeaponType.simple);
+            }
+            else if(_type == WeaponType.simple)
+            {
+                SetType(WeaponType.blaster);
+            }
+        }
 	}
 }

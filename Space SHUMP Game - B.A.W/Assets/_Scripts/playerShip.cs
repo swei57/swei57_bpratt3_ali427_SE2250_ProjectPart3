@@ -44,7 +44,7 @@ public class playerShip : MonoBehaviour {
 
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult,0); //ship rotation
          //allow ship to fire at enemies using delegate (spacebar)
-        if (Input.GetAxis("Jump") == 1 && fireDelegate != null) {
+        if (Input.GetKeyDown("space") && fireDelegate != null) {
             fireDelegate();
         }
 

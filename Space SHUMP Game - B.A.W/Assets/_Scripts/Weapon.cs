@@ -6,8 +6,9 @@ using UnityEngine;
 
 public enum WeaponType //declares all possible weapon types and powerups
 {
-    none,   
+    none,  
     blaster,   //blaster bois
+    simple,
     spread,    //2 shot
     phaser,    //wave shots
     missile,   //homing shots
@@ -111,6 +112,10 @@ public class Weapon : MonoBehaviour {
                 p = MakeProjectile(); //make left projectile
                 p.transform.rotation = Quaternion.AngleAxis(-30, Vector3.back);
                 p.rigid.velocity = p.transform.rotation * vel;
+                break;
+            case WeaponType.simple:
+                p = MakeProjectile();
+                p.rigid.velocity = vel;
                 break;
             //... add more weapons heres
         }

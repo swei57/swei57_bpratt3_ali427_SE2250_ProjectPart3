@@ -90,6 +90,7 @@ public class playerShip : MonoBehaviour {
 
 			if (value < 0) {
 				Destroy (this.gameObject);
+                ScoreManager.GAMEOVER();
 				Main.S.DelayedRestart(gameRestartDelay);
 			}
 		}

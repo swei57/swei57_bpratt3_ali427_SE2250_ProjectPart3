@@ -8,12 +8,27 @@ public class Enemy : MonoBehaviour {
 	public float fireRate = 0.3f;
 	public float health = 10;
 	public int score = 100;
+    public float showDamageDuration = 0.1f;
+
+    [Header("Set Dynamically: Enemy")]
+    public Color[] originalColors;
+    public Material[] materials;
+    public bool showingDamage = false;
+    public float damageDoneTime;
+    public bool notifiedOfDestruction = false;
 
     private BoundsCheck bndCheck;
 
     private void Awake()
     {
         bndCheck = GetComponent<BoundsCheck>();
+        //get materials & colors for this GameObject & children
+        materials = Utils.GetAllMaterials(gameObject);
+        originalColors = new Color[materials.Length];
+        for(int i = 0; i < materials.Length; i++)
+        {
+            originalColors[i] = materials[i].color;
+        }
     }
 
     public Vector3 position {
@@ -23,6 +38,12 @@ public class Enemy : MonoBehaviour {
 
 	public virtual void Update(){
 		Move ();
+
+        if (showingDamage && Time.time > damageDoneTime)
+        {
+            UnShowDamage();
+        }
+
         if(bndCheck != null && (bndCheck.offDown || bndCheck.offRight || bndCheck.offLeft))
         {
             Destroy(gameObject);
@@ -44,11 +65,13 @@ public class Enemy : MonoBehaviour {
                     break;
                 }
                 //hurt enemy
+                ShowDamage();
                 health -= Main.GetWeaponDefinition(p.type).damageOnHit;
                 if(health <= 0)
                 {
                     // Destroy enemy if health at or below 0
                     Destroy(this.gameObject);
+                    ScoreManager.EVENT(score);
                 }
                 Destroy(otherGO);
                 break;
@@ -67,6 +90,23 @@ public class Enemy : MonoBehaviour {
             print("Enemy hit by non-ProjectileHero: " + otherGO.name);
         }
         */
+    }
+    void ShowDamage()
+    {
+        foreach(Material m in materials)
+        {
+            m.color = Color.red;
+        }
+        showingDamage = true;
+        damageDoneTime = Time.time + showDamageDuration;
+    }
+    void UnShowDamage()
+    {
+        for(int i = 0; i < materials.Length; i++)
+        {
+            materials[i].color = originalColors[i];
+        }
+        showingDamage = false;
     }
 
 }

@@ -54,6 +54,7 @@ public class Main : MonoBehaviour {
         pos.z = 10;
         go.transform.position = pos;
         go.GetComponent<Enemy>().health = Random.Range(2, 10);
+        go.GetComponent<Enemy>().score = 10 * (int) go.GetComponent<Enemy>().health;
 
         Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
     }

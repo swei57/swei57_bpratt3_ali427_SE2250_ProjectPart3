@@ -106,16 +106,20 @@ public class Weapon : MonoBehaviour {
             case WeaponType.blaster:
                 p = MakeProjectile(); //middle projectile
                 p.rigid.velocity = vel;
+                Main.GetWeaponDefinition(p.type).damageOnHit = 1;
                 p = MakeProjectile(); //make right projectile
                 p.transform.rotation = Quaternion.AngleAxis(30, Vector3.back);
                 p.rigid.velocity = p.transform.rotation * vel;
+                Main.GetWeaponDefinition(p.type).damageOnHit = 1;
                 p = MakeProjectile(); //make left projectile
                 p.transform.rotation = Quaternion.AngleAxis(-30, Vector3.back);
                 p.rigid.velocity = p.transform.rotation * vel;
+                Main.GetWeaponDefinition(p.type).damageOnHit = 1;
                 break;
             case WeaponType.simple:
                 p = MakeProjectile();
                 p.rigid.velocity = vel;
+                Main.GetWeaponDefinition(p.type).damageOnHit = 3;
                 break;
             //... add more weapons heres
         }

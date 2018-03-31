@@ -119,6 +119,10 @@ public class playerShip : MonoBehaviour {
 
 
         pu.AbsorbedBy(this.gameObject);
+        if(activeLaser || bombLoaded)
+        {
+            return;
+        }
         switch (pu.type)
         {
             case WeaponType.laser:

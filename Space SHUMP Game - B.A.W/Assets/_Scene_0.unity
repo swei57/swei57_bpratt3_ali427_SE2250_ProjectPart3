@@ -234,7 +234,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &215806148
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -753,7 +753,7 @@ MonoBehaviour:
   gameRestartDelay: 5
   projectilePrefab: {fileID: 1679020474147004, guid: 21f0ac08f9b933a4ba521be0b5d252d2,
     type: 2}
-  whiteFlash: {fileID: 0}
+  whiteFlash: {fileID: 215806147}
   projectileSpeed: 40
 --- !u!4 &831543503
 Transform:

@@ -17,9 +17,13 @@ public class playerShip : MonoBehaviour {
     public delegate void WeaponFireDelegate();
     public WeaponFireDelegate fireDelegate;
 
+    private bool activeLaser;
+    private float currTime;
+
     // Use this for initialization
     private void Start(){
         transform.position= new Vector3(0, -25, 10);
+        activeLaser = false;
 		print ("okay");
     }
     void Awake() {
@@ -44,6 +48,11 @@ public class playerShip : MonoBehaviour {
 
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult,0); //ship rotation
          //allow ship to fire at enemies using delegate (spacebar)
+        if (activeLaser)
+        {
+            fireDelegate();
+            if (Time.time - currTime > 3f) activeLaser = false;
+        }
         if (Input.GetKeyDown("space") && fireDelegate != null) {
             fireDelegate();
         }
@@ -75,10 +84,32 @@ public class playerShip : MonoBehaviour {
 			shieldLevel--;
 			Destroy (go);
 
-		} else {
+		}
+        else if(go.tag == "PowerUp")
+        {
+            AbsorbPowerUp(go);
+        }
+        else {
 			print ("Triggered by non-Enemy: " + go.name);
 		}
 	}
+
+    public void AbsorbPowerUp(GameObject go)
+    {
+        PowerUp pu = go.GetComponent<PowerUp>();
+
+
+        pu.AbsorbedBy(this.gameObject);
+        switch (pu.type)
+        {
+            case WeaponType.laser:
+                currTime = Time.time;
+                activeLaser = true;
+                break;
+            case WeaponType.phaser:
+                break;
+        }
+    }
 
 	public float shieldLevel{
 		get {

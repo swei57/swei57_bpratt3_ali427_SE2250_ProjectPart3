@@ -1005,6 +1005,9 @@ MonoBehaviour:
     continuousDamage: 0
     delayBetweenShots: 0
     velocity: 0
+  prefabPowerUp: {fileID: 1712909301525946, guid: 3889fec755992984c8bc289aac2561ea,
+    type: 2}
+  powerUpFrequency: 0400000006000000
 --- !u!114 &1737250054
 MonoBehaviour:
   m_ObjectHideFlags: 0

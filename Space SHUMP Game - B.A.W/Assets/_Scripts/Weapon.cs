@@ -77,6 +77,14 @@ public class Weapon : MonoBehaviour {
             this.gameObject.SetActive(false);
             return;
         }
+        else if(type == WeaponType.phaser)
+        {
+            
+        }
+        else if(type == WeaponType.laser)
+        {
+            
+        }
         else
         {
             this.gameObject.SetActive(true);

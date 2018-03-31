@@ -10,6 +10,7 @@ public class playerShip : MonoBehaviour {
 	public float pitchMult = 30;
 	public float gameRestartDelay = 2f;
     public GameObject projectilePrefab;
+    public GameObject whiteFlash;
     public float projectileSpeed = 40;
 	private GameObject lastTriggerGo = null;
 	private float _shieldLevel = 4; //reference to the last triggering Gameobject
@@ -18,12 +19,15 @@ public class playerShip : MonoBehaviour {
     public WeaponFireDelegate fireDelegate;
 
     private bool activeLaser;
+    private bool bombLoaded;
     private float currTime;
 
     // Use this for initialization
     private void Start(){
         transform.position= new Vector3(0, -25, 10);
         activeLaser = false;
+        bombLoaded = false;
+        whiteFlash.SetActive(false);
 		print ("okay");
     }
     void Awake() {
@@ -53,7 +57,22 @@ public class playerShip : MonoBehaviour {
             fireDelegate();
             if (Time.time - currTime > 3f) activeLaser = false;
         }
-        if (Input.GetKeyDown("space") && fireDelegate != null) {
+        else if(whiteFlash.activeSelf && Time.time - currTime > 0.1f)
+        {
+            whiteFlash.SetActive(false);
+        }
+        else if(bombLoaded && Input.GetKeyDown("space"))
+        {
+            bombLoaded = false;
+            whiteFlash.SetActive(true);
+            currTime = Time.time;
+            foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                ScoreManager.EVENT(enemy.GetComponent<Enemy>().score);
+                Destroy(enemy);
+            }
+        }
+        else if (Input.GetKeyDown("space") && fireDelegate != null) {
             fireDelegate();
         }
 
@@ -107,6 +126,7 @@ public class playerShip : MonoBehaviour {
                 activeLaser = true;
                 break;
             case WeaponType.phaser:
+                bombLoaded = true;
                 break;
         }
     }

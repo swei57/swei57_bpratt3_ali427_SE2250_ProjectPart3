@@ -71,11 +71,8 @@ public class playerShip : MonoBehaviour {
             {
                 ScoreManager.EVENT(enemy.GetComponent<Enemy>().score);
                 Destroy(enemy);
-<<<<<<< HEAD
                 Enemy.deathCount++; //increment number of enemies destroyed by this powerup
                 Level.setDeathCount(Enemy.deathCount);
-=======
->>>>>>> fc6e4a0ae7a7f834dadd3a02fb2b325cdd7a6ec5
             }
         }
         else if (Input.GetKeyDown("space") && fireDelegate != null) {
@@ -152,16 +149,12 @@ public class playerShip : MonoBehaviour {
 			if (value < 0) {
 				Destroy (this.gameObject);
                 ScoreManager.GAMEOVER();
-<<<<<<< HEAD
                 Level.levelText.GetComponent<Text>().text = "GAME OVER!";
                 Level.setLevelCount(1); //reset level
                 Enemy.deathCount=0; //reset kills
                 Level.setDeathCount(0);//reset kills
                 
                 Main.S.DelayedRestart(gameRestartDelay);
-=======
-				Main.S.DelayedRestart(gameRestartDelay);
->>>>>>> fc6e4a0ae7a7f834dadd3a02fb2b325cdd7a6ec5
 			}
 		}
 	}

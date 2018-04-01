@@ -10,7 +10,11 @@ public class Enemy : MonoBehaviour {
 	public int score = 100;
     public float showDamageDuration = 0.1f;
     public float powerUpDropChance = 0f;
+<<<<<<< HEAD
 
+=======
+    static public int deathCount = 0;
+>>>>>>> levelFix
     [Header("Set Dynamically: Enemy")]
     public Color[] originalColors;
     public Material[] materials;
@@ -78,6 +82,11 @@ public class Enemy : MonoBehaviour {
                     // Destroy enemy if health at or below 0
                     Destroy(this.gameObject);
                     ScoreManager.EVENT(score);
+<<<<<<< HEAD
+=======
+                    deathCount++; //counting how many enemies were destroyed
+                    Level.setDeathCount(deathCount);
+>>>>>>> levelFix
                 }
                 Destroy(otherGO);
                 break;

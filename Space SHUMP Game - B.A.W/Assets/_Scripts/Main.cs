@@ -58,6 +58,7 @@ public class Main : MonoBehaviour {
 
     public void SpawnEnemy()
     {
+        //print(spawnCount);
         int ndx = Random.Range(0, prefabEnemies.Length);
         GameObject go = Instantiate<GameObject>(prefabEnemies[ndx]);
 
@@ -76,7 +77,11 @@ public class Main : MonoBehaviour {
         go.transform.position = pos;
         go.GetComponent<Enemy>().health = Random.Range(2, 10);
         go.GetComponent<Enemy>().score = 10 * (int) go.GetComponent<Enemy>().health;
+<<<<<<< HEAD
         if(go.GetComponent<Enemy>().health > 7)
+=======
+        if(go.GetComponent<Enemy>().health > 7 && Level.getWaves()!=5)
+>>>>>>> levelFix
         {
             go.GetComponent<Enemy>().powerUpDropChance = 0.7f;
         }
@@ -85,7 +90,18 @@ public class Main : MonoBehaviour {
             go.GetComponent<Enemy>().powerUpDropChance = 0f;
         }
 
-        Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
+            Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
+        if (Level.getDeathCount() >= Level.getWaves()) //level up if player killed enough enemies
+        {
+            levelUp();
+        }
+
+    }
+
+    public void levelUp()
+    {
+        Level.SetLevelOver(true); //sets flag
+        enemySpawnPerSecond *= 1.5f; //increase freq of enemies spawned every level
     }
 
 	public void DelayedRestart (float delay){

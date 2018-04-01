@@ -77,11 +77,7 @@ public class Main : MonoBehaviour {
         go.transform.position = pos;
         go.GetComponent<Enemy>().health = Random.Range(2, 10);
         go.GetComponent<Enemy>().score = 10 * (int) go.GetComponent<Enemy>().health;
-<<<<<<< HEAD
-        if(go.GetComponent<Enemy>().health > 7)
-=======
         if(go.GetComponent<Enemy>().health > 7 && Level.getWaves()!=5)
->>>>>>> levelFix
         {
             go.GetComponent<Enemy>().powerUpDropChance = 0.7f;
         }

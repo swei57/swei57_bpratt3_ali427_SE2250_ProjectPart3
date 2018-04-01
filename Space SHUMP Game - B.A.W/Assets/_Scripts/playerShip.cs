@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class playerShip : MonoBehaviour {
 
@@ -10,6 +11,7 @@ public class playerShip : MonoBehaviour {
 	public float pitchMult = 30;
 	public float gameRestartDelay = 2f;
     public GameObject projectilePrefab;
+    public GameObject whiteFlash;
     public float projectileSpeed = 40;
 	private GameObject lastTriggerGo = null;
 	private float _shieldLevel = 4; //reference to the last triggering Gameobject
@@ -17,9 +19,16 @@ public class playerShip : MonoBehaviour {
     public delegate void WeaponFireDelegate();
     public WeaponFireDelegate fireDelegate;
 
+    private bool activeLaser;
+    private bool bombLoaded;
+    private float currTime;
+
     // Use this for initialization
     private void Start(){
         transform.position= new Vector3(0, -25, 10);
+        activeLaser = false;
+        bombLoaded = false;
+        whiteFlash.SetActive(false);
 		print ("okay");
     }
     void Awake() {
@@ -44,7 +53,32 @@ public class playerShip : MonoBehaviour {
 
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult,0); //ship rotation
          //allow ship to fire at enemies using delegate (spacebar)
-        if (Input.GetAxis("Jump") == 1 && fireDelegate != null) {
+        if (activeLaser)
+        {
+            fireDelegate();
+            if (Time.time - currTime > 3f) activeLaser = false;
+        }
+        else if(whiteFlash.activeSelf && Time.time - currTime > 0.1f)
+        {
+            whiteFlash.SetActive(false);
+        }
+        else if(bombLoaded && Input.GetKeyDown("space"))
+        {
+            bombLoaded = false;
+            whiteFlash.SetActive(true);
+            currTime = Time.time;
+            foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                ScoreManager.EVENT(enemy.GetComponent<Enemy>().score);
+                Destroy(enemy);
+<<<<<<< HEAD
+                Enemy.deathCount++; //increment number of enemies destroyed by this powerup
+                Level.setDeathCount(Enemy.deathCount);
+=======
+>>>>>>> fc6e4a0ae7a7f834dadd3a02fb2b325cdd7a6ec5
+            }
+        }
+        else if (Input.GetKeyDown("space") && fireDelegate != null) {
             fireDelegate();
         }
 
@@ -75,10 +109,37 @@ public class playerShip : MonoBehaviour {
 			shieldLevel--;
 			Destroy (go);
 
-		} else {
+		}
+        else if(go.tag == "PowerUp")
+        {
+            AbsorbPowerUp(go);
+        }
+        else {
 			print ("Triggered by non-Enemy: " + go.name);
 		}
 	}
+
+    public void AbsorbPowerUp(GameObject go)
+    {
+        PowerUp pu = go.GetComponent<PowerUp>();
+
+
+        pu.AbsorbedBy(this.gameObject);
+        if(activeLaser || bombLoaded)
+        {
+            return;
+        }
+        switch (pu.type)
+        {
+            case WeaponType.laser:
+                currTime = Time.time;
+                activeLaser = true;
+                break;
+            case WeaponType.phaser:
+                bombLoaded = true;
+                break;
+        }
+    }
 
 	public float shieldLevel{
 		get {
@@ -90,7 +151,17 @@ public class playerShip : MonoBehaviour {
 
 			if (value < 0) {
 				Destroy (this.gameObject);
+                ScoreManager.GAMEOVER();
+<<<<<<< HEAD
+                Level.levelText.GetComponent<Text>().text = "GAME OVER!";
+                Level.setLevelCount(1); //reset level
+                Enemy.deathCount=0; //reset kills
+                Level.setDeathCount(0);//reset kills
+                
+                Main.S.DelayedRestart(gameRestartDelay);
+=======
 				Main.S.DelayedRestart(gameRestartDelay);
+>>>>>>> fc6e4a0ae7a7f834dadd3a02fb2b325cdd7a6ec5
 			}
 		}
 	}

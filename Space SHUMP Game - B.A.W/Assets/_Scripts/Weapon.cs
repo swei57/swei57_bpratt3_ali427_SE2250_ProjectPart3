@@ -77,6 +77,14 @@ public class Weapon : MonoBehaviour {
             this.gameObject.SetActive(false);
             return;
         }
+        else if(type == WeaponType.phaser)
+        {
+            
+        }
+        else if(type == WeaponType.laser)
+        {
+            
+        }
         else
         {
             this.gameObject.SetActive(true);
@@ -106,16 +114,20 @@ public class Weapon : MonoBehaviour {
             case WeaponType.blaster:
                 p = MakeProjectile(); //middle projectile
                 p.rigid.velocity = vel;
+                Main.GetWeaponDefinition(p.type).damageOnHit = 1;
                 p = MakeProjectile(); //make right projectile
                 p.transform.rotation = Quaternion.AngleAxis(30, Vector3.back);
                 p.rigid.velocity = p.transform.rotation * vel;
+                Main.GetWeaponDefinition(p.type).damageOnHit = 1;
                 p = MakeProjectile(); //make left projectile
                 p.transform.rotation = Quaternion.AngleAxis(-30, Vector3.back);
                 p.rigid.velocity = p.transform.rotation * vel;
+                Main.GetWeaponDefinition(p.type).damageOnHit = 1;
                 break;
             case WeaponType.simple:
                 p = MakeProjectile();
                 p.rigid.velocity = vel;
+                Main.GetWeaponDefinition(p.type).damageOnHit = 3;
                 break;
             //... add more weapons heres
         }
@@ -145,6 +157,16 @@ public class Weapon : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (Input.GetKeyDown("x"))
+        {
+            if(_type == WeaponType.blaster)
+            {
+                SetType(WeaponType.simple);
+            }
+            else if(_type == WeaponType.simple)
+            {
+                SetType(WeaponType.blaster);
+            }
+        }
 	}
 }

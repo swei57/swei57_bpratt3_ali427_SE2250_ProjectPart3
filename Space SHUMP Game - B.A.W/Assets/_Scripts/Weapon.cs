@@ -154,7 +154,7 @@ public class Weapon : MonoBehaviour {
         go.transform.SetParent(PROJECTILE_ANCHOR, true);
         Projectile p = go.GetComponent<Projectile>();
         p.type = type;
-        lastShotTime = Time.deltaTime;
+        lastShotTime = Time.time;
         return (p);
     }
 	

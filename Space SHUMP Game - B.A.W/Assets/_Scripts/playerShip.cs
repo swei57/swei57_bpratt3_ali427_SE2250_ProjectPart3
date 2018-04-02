@@ -120,15 +120,15 @@ public class playerShip : MonoBehaviour {
 		if (go.tag == "Enemy") {
 			shieldLevel--;
 			Destroy (go);
-
 		}
         else if(go.tag == "PowerUp")
         {
             AbsorbPowerUp(go);
         }
         else {
-			print ("Triggered by non-Enemy: " + go.name);
-		}
+            shieldLevel--;
+            Destroy(go);
+        }
 	}
 
     public void AbsorbPowerUp(GameObject go)

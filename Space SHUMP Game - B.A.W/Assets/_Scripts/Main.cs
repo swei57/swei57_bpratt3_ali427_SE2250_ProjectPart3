@@ -63,7 +63,15 @@ public class Main : MonoBehaviour {
     {
         //print(spawnCount);
         int ndx = Random.Range(0, prefabEnemies.Length);
-        GameObject go = Instantiate<GameObject>(prefabEnemies[ndx]);
+        GameObject temp = prefabEnemies[ndx];
+        if(ndx == 0)
+        {
+            if (Random.Range(0, 10) > 6)
+            {
+                temp.GetComponent<Enemy>().canShoot = true;
+            }
+        }
+        GameObject go = Instantiate<GameObject>(temp);
 
         float enemyPadding = enemyDefaultPadding;
         if(go.GetComponent<BoundsCheck>() != null)
@@ -82,7 +90,7 @@ public class Main : MonoBehaviour {
         go.GetComponent<Enemy>().score = 10 * (int) go.GetComponent<Enemy>().health;
         if(go.GetComponent<Enemy>().health > 7)
         {
-            go.GetComponent<Enemy>().powerUpDropChance = 1f;
+            go.GetComponent<Enemy>().powerUpDropChance = 0.7f;
         }
         else
         {

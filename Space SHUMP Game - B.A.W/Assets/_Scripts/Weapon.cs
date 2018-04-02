@@ -39,6 +39,7 @@ public class Weapon : MonoBehaviour {
     public GameObject collar;
     public float lastShotTime; //time of the last shot fired
     private Renderer collarRend;
+    private bool isEnemy = false;
 
 	// Use this for initialization
 	void Start () {
@@ -59,6 +60,14 @@ public class Weapon : MonoBehaviour {
         if(rootGo.GetComponent<playerShip>() != null)
         {
             rootGo.GetComponent<playerShip>().fireDelegate += Fire;
+        }
+        if(rootGo.GetComponent<Enemy>() != null)
+        {
+            isEnemy = true;
+            if(rootGo.GetComponent<Enemy>().canShoot == true)
+            {
+                Invoke("Fire", 3f);
+            }
         }
 
 	}
@@ -139,6 +148,7 @@ public class Weapon : MonoBehaviour {
     public Projectile MakeProjectile()
     {
         GameObject go = Instantiate<GameObject>(def.projectilePrefab);
+        
         if(transform.parent.gameObject.tag == "Hero")
         {
             go.tag = "ProjectileHero";
@@ -147,7 +157,7 @@ public class Weapon : MonoBehaviour {
         }
         else
         {
-            go.tag = "ProjectileEnemy";
+            go.tag = "Projectile Enemy";
             go.layer = LayerMask.NameToLayer("ProjectileEnemy");
         }
         go.transform.position = collar.transform.position;

@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour {
     public bool showingDamage = false;
     public float damageDoneTime;
     public bool notifiedOfDestruction = false;
+    public bool canShoot = false;
 
     private BoundsCheck bndCheck;
 

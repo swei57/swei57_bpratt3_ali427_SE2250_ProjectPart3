@@ -14,7 +14,7 @@ public class Main : MonoBehaviour {
     public GameObject prefabPowerUp;
     public WeaponType[] powerUpFrequency = new WeaponType[]
     {
-        WeaponType.phaser, WeaponType.laser, WeaponType.laser, WeaponType.laser
+        WeaponType.phaser, WeaponType.laser, WeaponType.laser, WeaponType.laser, WeaponType.shield
     };
     private BoundsCheck bndCheck;
 
@@ -79,13 +79,12 @@ public class Main : MonoBehaviour {
         go.GetComponent<Enemy>().score = 10 * (int) go.GetComponent<Enemy>().health;
         if(go.GetComponent<Enemy>().health > 7 && Level.getWaves()!=5)
         {
-            go.GetComponent<Enemy>().powerUpDropChance = 0.7f;
+            go.GetComponent<Enemy>().powerUpDropChance = 1.0f;
         }
         else
         {
             go.GetComponent<Enemy>().powerUpDropChance = 0f;
         }
-
             Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
         if (Level.getDeathCount() >= Level.getWaves()) //level up if player killed enough enemies
         {

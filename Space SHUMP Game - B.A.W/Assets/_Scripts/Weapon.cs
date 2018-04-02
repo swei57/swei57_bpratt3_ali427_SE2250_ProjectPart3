@@ -84,6 +84,9 @@ public class Weapon : MonoBehaviour {
         else if(type == WeaponType.laser)
         {
             
+        }else if(type == WeaponType.shield)
+        {
+
         }
         else
         {

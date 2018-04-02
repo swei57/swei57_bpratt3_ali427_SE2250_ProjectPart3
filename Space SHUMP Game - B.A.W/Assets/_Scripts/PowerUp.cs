@@ -88,6 +88,10 @@ public class PowerUp : MonoBehaviour {
         {
             letter.text = "L";
             cubeRend.material.color = Color.magenta;
+        }else if(wt == WeaponType.shield)
+        {
+            letter.text = "S";
+            cubeRend.material.color = Color.green;
         }
         else
         {

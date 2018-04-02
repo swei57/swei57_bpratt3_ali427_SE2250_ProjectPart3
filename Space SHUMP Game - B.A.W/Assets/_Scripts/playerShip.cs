@@ -6,21 +6,22 @@ using UnityEngine.UI;
 public class playerShip : MonoBehaviour {
 
     static public playerShip ship;   //setting ship default vals
-    public float speed = 30;
-    public float rollMult = -45;
-	public float pitchMult = 30;
+    public float speed = 30f;
+    public float rollMult = -45f;
+	public float pitchMult = 30f;
 	public float gameRestartDelay = 2f;
     public GameObject projectilePrefab;
     public GameObject whiteFlash;
-    public float projectileSpeed = 40;
+    public float projectileSpeed = 40f;
 	private GameObject lastTriggerGo = null;
-	private float _shieldLevel = 4; //reference to the last triggering Gameobject
+	private float _shieldLevel = 4f; //reference to the last triggering Gameobject
 
     public delegate void WeaponFireDelegate();
     public WeaponFireDelegate fireDelegate;
 
     private bool activeLaser;
     private bool bombLoaded;
+    private bool activeShieldBoost; //add infinite shield for 5 sec
     private float currTime;
 
     // Use this for initialization
@@ -29,6 +30,7 @@ public class playerShip : MonoBehaviour {
         activeLaser = false;
         bombLoaded = false;
         whiteFlash.SetActive(false);
+        activeShieldBoost = false;
 		print ("okay");
     }
     void Awake() {
@@ -52,30 +54,43 @@ public class playerShip : MonoBehaviour {
         transform.position = position;
 
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult,0); //ship rotation
-         //allow ship to fire at enemies using delegate (spacebar)
+                                                                                      //allow ship to fire at enemies using delegate (spacebar)
         if (activeLaser)
         {
             fireDelegate();
             if (Time.time - currTime > 3f) activeLaser = false;
         }
-        else if(whiteFlash.activeSelf && Time.time - currTime > 0.1f)
+        else if (whiteFlash.activeSelf && Time.time - currTime > 0.1f)
         {
             whiteFlash.SetActive(false);
         }
-        else if(bombLoaded && Input.GetKeyDown("space"))
+        else if (bombLoaded && Input.GetKeyDown("space"))
         {
             bombLoaded = false;
             whiteFlash.SetActive(true);
             currTime = Time.time;
-            foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+            foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
             {
                 ScoreManager.EVENT(enemy.GetComponent<Enemy>().score);
                 Destroy(enemy);
                 Enemy.deathCount++; //increment number of enemies destroyed by this powerup
                 Level.setDeathCount(Enemy.deathCount);
             }
+        }else if (activeShieldBoost)
+        {
+            _shieldLevel = 4;
+            Shield.mat.SetColor("_Color", Color.yellow);
+            if (Time.time - currTime > 5f)
+            {
+                activeShieldBoost = false; //activate infinite shield for 5 sec
+                _shieldLevel = 4; //resets shield HP back to full after active is done
+                Shield.mat.SetColor("_Color", Color.green);
+            }
+
+            
         }
-        else if (Input.GetKeyDown("space") && fireDelegate != null) {
+        else if (Input.GetKeyDown("space") && fireDelegate != null)
+        {
             fireDelegate();
         }
 
@@ -122,7 +137,7 @@ public class playerShip : MonoBehaviour {
 
 
         pu.AbsorbedBy(this.gameObject);
-        if(activeLaser || bombLoaded)
+        if(activeLaser || bombLoaded || activeShieldBoost)
         {
             return;
         }
@@ -134,6 +149,10 @@ public class playerShip : MonoBehaviour {
                 break;
             case WeaponType.phaser:
                 bombLoaded = true;
+                break;
+            case WeaponType.shield:
+                currTime = Time.time;
+                activeShieldBoost = true;
                 break;
         }
     }

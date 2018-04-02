@@ -825,7 +825,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19f6111dd110b26488fb4851c527537f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_SHIELD_HP: 1e+9
   speed: 80
   rollMult: -30
   pitchMult: 35
@@ -1246,7 +1245,7 @@ MonoBehaviour:
     velocity: 0
   prefabPowerUp: {fileID: 1712909301525946, guid: 3889fec755992984c8bc289aac2561ea,
     type: 2}
-  powerUpFrequency: 040000000600000007000000
+  powerUpFrequency: 0700000007000000070000000700000007000000
 --- !u!114 &1737250054
 MonoBehaviour:
   m_ObjectHideFlags: 0

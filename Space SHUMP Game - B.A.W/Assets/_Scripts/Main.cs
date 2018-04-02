@@ -12,10 +12,9 @@ public class Main : MonoBehaviour {
     public float enemyDefaultPadding = 1.5f;
     public WeaponDefinition[] weaponDefinitions;
     public GameObject prefabPowerUp;
-    public WeaponType[] powerUpFrequency = new WeaponType[]
-    {
-        WeaponType.phaser, WeaponType.laser, WeaponType.laser, WeaponType.laser, WeaponType.shield
-    };
+    public WeaponType[] powerUpFrequency = new WeaponType[5];
+    private bool levelOneComplete = false;
+    private bool levelTwoComplete = false;
     private BoundsCheck bndCheck;
 
     public void ShipDestroyed(Enemy e)
@@ -45,6 +44,10 @@ public class Main : MonoBehaviour {
         foreach(WeaponDefinition def in weaponDefinitions)
         {
             WEAP_DICT[def.type] = def;
+        }
+        for(int i = 0; i < powerUpFrequency.Length; i++)
+        {
+            powerUpFrequency[i] = WeaponType.shield;
         }
     }
 
@@ -77,18 +80,29 @@ public class Main : MonoBehaviour {
         go.transform.position = pos;
         go.GetComponent<Enemy>().health = Random.Range(2, 10);
         go.GetComponent<Enemy>().score = 10 * (int) go.GetComponent<Enemy>().health;
-        if(go.GetComponent<Enemy>().health > 7 && Level.getWaves()!=5)
+        if(go.GetComponent<Enemy>().health > 7)
         {
-            go.GetComponent<Enemy>().powerUpDropChance = 1.0f;
+            go.GetComponent<Enemy>().powerUpDropChance = 1f;
         }
         else
         {
             go.GetComponent<Enemy>().powerUpDropChance = 0f;
         }
-            Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
+        Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
         if (Level.getDeathCount() >= Level.getWaves()) //level up if player killed enough enemies
         {
             levelUp();
+        }
+        if(!levelOneComplete && Level.getWaves() > 5)
+        {
+            levelOneComplete = true;
+            powerUpFrequency[2] = WeaponType.laser;
+            powerUpFrequency[3] = WeaponType.laser;
+        }
+        else if(!levelTwoComplete && Level.getWaves() > 10)
+        {
+            levelTwoComplete = true;
+            powerUpFrequency[4] = WeaponType.phaser;
         }
 
     }

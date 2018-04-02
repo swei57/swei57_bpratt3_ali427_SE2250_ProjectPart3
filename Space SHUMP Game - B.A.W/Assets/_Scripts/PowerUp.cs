@@ -16,25 +16,25 @@ public class PowerUp : MonoBehaviour {
     public Vector3 rotPerSecond;
     public float birthTime;
 
-    private Rigidbody rigid;
-    private BoundsCheck bndCheck;
-    private Renderer cubeRend;
+    private Rigidbody _rigid;
+    private BoundsCheck _bndCheck;
+    private Renderer _cubeRend;
 
     private void Awake()
     {
         cube = transform.Find("Cube").gameObject;
 
         letter = GetComponent<TextMesh>();
-        rigid = GetComponent<Rigidbody>();
-        bndCheck = GetComponent<BoundsCheck>();
-        cubeRend = cube.GetComponent<Renderer>();
+        _rigid = GetComponent<Rigidbody>();
+        _bndCheck = GetComponent<BoundsCheck>();
+        _cubeRend = cube.GetComponent<Renderer>();
 
         Vector3 vel = Random.onUnitSphere;
 
         vel.z = 0;
         vel.Normalize();
         vel *= Random.Range(driftMinMax.x, driftMinMax.y);
-        rigid.velocity = vel;
+        _rigid.velocity = vel;
 
         transform.rotation = Quaternion.identity;
 
@@ -59,16 +59,16 @@ public class PowerUp : MonoBehaviour {
 
         if (u > 0)
         {
-            Color c = cubeRend.material.color;
+            Color c = _cubeRend.material.color;
             c.a = 1f - u;
-            cubeRend.material.color = c;
+            _cubeRend.material.color = c;
 
             c = letter.color;
             c.a = 1f - (u * 0.5f);
             letter.color = c;
         }
 
-        if (!bndCheck.isOnScreen)
+        if (!_bndCheck.isOnScreen)
         {
             Destroy(gameObject);
         }
@@ -78,20 +78,20 @@ public class PowerUp : MonoBehaviour {
     {
         WeaponDefinition def = Main.GetWeaponDefinition(wt);
 
-        cubeRend.material.color = def.color;
+        _cubeRend.material.color = def.color;
         if(wt == WeaponType.phaser)
         {
             letter.text = "P";
-            cubeRend.material.color = Color.red;
+            _cubeRend.material.color = Color.red;
         }
         else if (wt == WeaponType.laser)
         {
             letter.text = "L";
-            cubeRend.material.color = Color.magenta;
+            _cubeRend.material.color = Color.magenta;
         }else if(wt == WeaponType.shield)
         {
             letter.text = "S";
-            cubeRend.material.color = Color.green;
+            _cubeRend.material.color = Color.green;
         }
         else
         {

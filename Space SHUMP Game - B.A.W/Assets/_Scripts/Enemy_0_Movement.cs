@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy_0_Movement : Enemy {
 
-	private Vector3 direction = new Vector3(0f,-1f,0f);
+	private Vector3 _direction = new Vector3(0f,-1f,0f);
 
 
 	// Use this for initialization
@@ -18,6 +18,6 @@ public class Enemy_0_Movement : Enemy {
 	}
 		
 	public override void Move (){
-		transform.Translate (direction * speed);
+		transform.Translate (_direction * speed);
 	}
 }

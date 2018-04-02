@@ -5,9 +5,9 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
 
     // Use this for initialization
-    private BoundsCheck bndCheck;
+    private BoundsCheck _bndCheck;
     [SerializeField]
-    private Renderer rend;
+    private Renderer _rend;
 
     [Header("Set Dynamically")]
     public Rigidbody rigid;
@@ -25,14 +25,14 @@ public class Projectile : MonoBehaviour {
         }
     }
 	void Awake () {
-        bndCheck = GetComponent<BoundsCheck>();
-        rend = GetComponent<Renderer>();
+        _bndCheck = GetComponent<BoundsCheck>();
+        _rend = GetComponent<Renderer>();
         rigid = GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (bndCheck.offUp)
+        if (_bndCheck.offUp)
         {
             Destroy(gameObject);
         }
@@ -43,6 +43,6 @@ public class Projectile : MonoBehaviour {
         //set type
         _type = eType;
         WeaponDefinition def = Main.GetWeaponDefinition(_type);
-        rend.material.color = def.projectileColor;
+        _rend.material.color = def.projectileColor;
     }
 }

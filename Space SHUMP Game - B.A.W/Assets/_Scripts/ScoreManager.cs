@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour {
 
-    static private ScoreManager S;
+    static private ScoreManager _S;
     static public int HIGH_SCORE = 0;
 
     public GameObject scoreBoard;
@@ -15,9 +15,9 @@ public class ScoreManager : MonoBehaviour {
 
     private void Awake()
     {
-        if (S == null)
+        if (_S == null)
         {
-            S = this;
+            _S = this;
         }
         else
         {
@@ -35,7 +35,7 @@ public class ScoreManager : MonoBehaviour {
     {
         try
         {
-            S.Event(points);
+            _S.Event(points);
         } catch(System.NullReferenceException nre)
         {
             Debug.LogError("ScoreManager:EVENT() called while S=null.\n" + nre);
@@ -50,7 +50,7 @@ public class ScoreManager : MonoBehaviour {
     {
         try
         {
-            S.GameOver();
+            _S.GameOver();
         }
         catch (System.NullReferenceException nre)
         {

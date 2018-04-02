@@ -13,9 +13,9 @@ public class Main : MonoBehaviour {
     public WeaponDefinition[] weaponDefinitions;
     public GameObject prefabPowerUp;
     public WeaponType[] powerUpFrequency = new WeaponType[5];
-    private bool levelOneComplete = false;
-    private bool levelTwoComplete = false;
-    private BoundsCheck bndCheck;
+    private bool _levelOneComplete = false;
+    private bool _levelTwoComplete = false;
+    private BoundsCheck _bndCheck;
 
     public void ShipDestroyed(Enemy e)
     {
@@ -36,7 +36,7 @@ public class Main : MonoBehaviour {
     private void Awake()
     {
         S = this;
-        bndCheck = GetComponent<BoundsCheck>();
+        _bndCheck = GetComponent<BoundsCheck>();
         Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
 
         //generic dictionary with WeaponType as the key...
@@ -54,7 +54,7 @@ public class Main : MonoBehaviour {
     void OnDrawGizmos()
     {
         if (!Application.isPlaying) return;
-        Vector3 boundSize = new Vector3(bndCheck.cameraWidth * 2, bndCheck.cameraHeight * 2, 0.1f);
+        Vector3 boundSize = new Vector3(_bndCheck.cameraWidth * 2, _bndCheck.cameraHeight * 2, 0.1f);
         Gizmos.DrawWireCube(Vector3.zero, boundSize);
     }
 
@@ -64,7 +64,7 @@ public class Main : MonoBehaviour {
         //print(spawnCount);
         int ndx = Random.Range(0, prefabEnemies.Length);
         GameObject temp = prefabEnemies[ndx];
-        if(ndx == 0)
+        if(ndx == 0 && _levelTwoComplete)
         {
             if (Random.Range(0, 10) > 6)
             {
@@ -80,10 +80,10 @@ public class Main : MonoBehaviour {
         }
 
         Vector3 pos = Vector3.zero;
-        float xMin = -bndCheck.cameraWidth + enemyPadding;
-        float xMax = bndCheck.cameraWidth - enemyPadding;
+        float xMin = -_bndCheck.cameraWidth + enemyPadding;
+        float xMax = _bndCheck.cameraWidth - enemyPadding;
         pos.x = Random.Range(xMin, xMax);
-        pos.y = bndCheck.cameraHeight + enemyPadding;
+        pos.y = _bndCheck.cameraHeight + enemyPadding;
         pos.z = 10;
         go.transform.position = pos;
         go.GetComponent<Enemy>().health = Random.Range(2, 10);
@@ -100,16 +100,17 @@ public class Main : MonoBehaviour {
         if (Level.getDeathCount() >= Level.getWaves()) //level up if player killed enough enemies
         {
             levelUp();
+            ScoreManager.EVENT(200);
         }
-        if(!levelOneComplete && Level.getWaves() > 5)
+        if(!_levelOneComplete && Level.getWaves() > 5)
         {
-            levelOneComplete = true;
+            _levelOneComplete = true;
             powerUpFrequency[2] = WeaponType.laser;
             powerUpFrequency[3] = WeaponType.laser;
         }
-        else if(!levelTwoComplete && Level.getWaves() > 10)
+        else if(!_levelTwoComplete && Level.getWaves() > 10)
         {
-            levelTwoComplete = true;
+            _levelTwoComplete = true;
             powerUpFrequency[4] = WeaponType.phaser;
         }
 

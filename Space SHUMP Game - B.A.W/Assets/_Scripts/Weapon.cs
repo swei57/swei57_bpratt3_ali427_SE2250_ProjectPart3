@@ -38,13 +38,12 @@ public class Weapon : MonoBehaviour {
     public WeaponDefinition def;
     public GameObject collar;
     public float lastShotTime; //time of the last shot fired
-    private Renderer collarRend;
-    private bool isEnemy = false;
+    private Renderer _collarRend;
 
 	// Use this for initialization
 	void Start () {
         collar = transform.Find("Collar").gameObject;
-        collarRend = collar.GetComponent<Renderer>();
+        _collarRend = collar.GetComponent<Renderer>();
         //set type call
         SetType(_type);
 
@@ -63,10 +62,9 @@ public class Weapon : MonoBehaviour {
         }
         if(rootGo.GetComponent<Enemy>() != null)
         {
-            isEnemy = true;
-            if(rootGo.GetComponent<Enemy>().canShoot == true)
+            if(rootGo.GetComponent<Enemy>().canShoot)
             {
-                Invoke("Fire", 3f);
+                Invoke("Fire", 2f);
             }
         }
 
@@ -102,7 +100,7 @@ public class Weapon : MonoBehaviour {
             this.gameObject.SetActive(true);
         }
         def = Main.GetWeaponDefinition(_type);
-        collarRend.material.color = def.color;
+        _collarRend.material.color = def.color;
         lastShotTime = 0;
     }
 
@@ -164,7 +162,12 @@ public class Weapon : MonoBehaviour {
         go.transform.SetParent(PROJECTILE_ANCHOR, true);
         Projectile p = go.GetComponent<Projectile>();
         p.type = type;
+        GameObject rootGo = transform.root.gameObject;
         lastShotTime = Time.time;
+        if (rootGo.GetComponent<playerShip>() != null)
+        {
+            if (rootGo.GetComponent<playerShip>().activeLaser) lastShotTime = 0;
+        }
         return (p);
     }
 	

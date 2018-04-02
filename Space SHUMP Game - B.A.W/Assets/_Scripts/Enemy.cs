@@ -19,11 +19,11 @@ public class Enemy : MonoBehaviour {
     public bool notifiedOfDestruction = false;
     public bool canShoot = false;
 
-    private BoundsCheck bndCheck;
+    private BoundsCheck _bndCheck;
 
     private void Awake()
     {
-        bndCheck = GetComponent<BoundsCheck>();
+        _bndCheck = GetComponent<BoundsCheck>();
         //get materials & colors for this GameObject & children
         materials = Utils.GetAllMaterials(gameObject);
         originalColors = new Color[materials.Length];
@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour {
             UnShowDamage();
         }
 
-        if(bndCheck != null && (bndCheck.offDown || bndCheck.offRight || bndCheck.offLeft))
+        if(_bndCheck != null && (_bndCheck.offDown || _bndCheck.offRight || _bndCheck.offLeft))
         {
             Destroy(gameObject);
         }
@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour {
         {
             case "ProjectileHero":
                 Projectile p = otherGO.GetComponent<Projectile>();
-                if (!bndCheck.isOnScreen)   //destroy projectile if enemy is off screen
+                if (!_bndCheck.isOnScreen)   //destroy projectile if enemy is off screen
                 {
                     Destroy(otherGO);
                     break;

@@ -13,24 +13,24 @@ public class playerShip : MonoBehaviour {
     public GameObject projectilePrefab;
     public GameObject whiteFlash;
     public float projectileSpeed = 40f;
-	private GameObject lastTriggerGo = null;
+	private GameObject _lastTriggerGo = null;
 	private float _shieldLevel = 4f; //reference to the last triggering Gameobject
 
     public delegate void WeaponFireDelegate();
     public WeaponFireDelegate fireDelegate;
 
-    private bool activeLaser;
-    private bool bombLoaded;
-    private bool activeShieldBoost; //add infinite shield for 5 sec
-    private float currTime;
+    public bool activeLaser;
+    private bool _bombLoaded;
+    private bool _activeShieldBoost; //add infinite shield for 5 sec
+    private float _currTime;
 
     // Use this for initialization
     private void Start(){
         transform.position= new Vector3(0, -25, 10);
         activeLaser = false;
-        bombLoaded = false;
+        _bombLoaded = false;
         whiteFlash.SetActive(false);
-        activeShieldBoost = false;
+        _activeShieldBoost = false;
 		print ("okay");
     }
     void Awake() {
@@ -58,17 +58,17 @@ public class playerShip : MonoBehaviour {
         if (activeLaser)
         {
             fireDelegate();
-            if (Time.time - currTime > 3f) activeLaser = false;
+            if (Time.time - _currTime > 3f) activeLaser = false;
         }
-        else if (whiteFlash.activeSelf && Time.time - currTime > 0.1f)
+        else if (whiteFlash.activeSelf && Time.time - _currTime > 0.1f)
         {
             whiteFlash.SetActive(false);
         }
-        else if (bombLoaded && Input.GetKeyDown("space"))
+        else if (_bombLoaded && Input.GetKeyDown("space"))
         {
-            bombLoaded = false;
+            _bombLoaded = false;
             whiteFlash.SetActive(true);
-            currTime = Time.time;
+            _currTime = Time.time;
             foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
             {
                 ScoreManager.EVENT(enemy.GetComponent<Enemy>().score);
@@ -76,22 +76,21 @@ public class playerShip : MonoBehaviour {
                 Enemy.deathCount++; //increment number of enemies destroyed by this powerup
                 Level.setDeathCount(Enemy.deathCount);
             }
-        }else if (activeShieldBoost)
-        {
-            _shieldLevel = 4;
-            Shield.mat.SetColor("_Color", Color.yellow);
-            if (Time.time - currTime > 5f)
-            {
-                activeShieldBoost = false; //activate infinite shield for 5 sec
-                _shieldLevel = 4; //resets shield HP back to full after active is done
-                Shield.mat.SetColor("_Color", Color.green);
-            }
-
-            
         }
         else if (Input.GetKeyDown("space") && fireDelegate != null)
         {
             fireDelegate();
+        }
+        if (_activeShieldBoost)
+        {
+            _shieldLevel = 4;
+            Shield.mat.SetColor("_Color", Color.yellow);
+            if (Time.time - _currTime > 5f)
+            {
+                _activeShieldBoost = false; //activate infinite shield for 5 sec
+                _shieldLevel = 4; //resets shield HP back to full after active is done
+                Shield.mat.SetColor("_Color", Color.green);
+            }
         }
 
     }
@@ -112,10 +111,10 @@ public class playerShip : MonoBehaviour {
 		GameObject go = rootT.gameObject;
 		print(go.name);
 
-		if (go == lastTriggerGo) {
+		if (go == _lastTriggerGo) {
 			return;
 		}
-		lastTriggerGo = go;
+		_lastTriggerGo = go;
 
 		if (go.tag == "Enemy") {
 			shieldLevel--;
@@ -137,22 +136,22 @@ public class playerShip : MonoBehaviour {
 
 
         pu.AbsorbedBy(this.gameObject);
-        if(activeLaser || bombLoaded || activeShieldBoost)
+        if(activeLaser || _bombLoaded || _activeShieldBoost)
         {
             return;
         }
         switch (pu.type)
         {
             case WeaponType.laser:
-                currTime = Time.time;
+                _currTime = Time.time;
                 activeLaser = true;
                 break;
             case WeaponType.phaser:
-                bombLoaded = true;
+                _bombLoaded = true;
                 break;
             case WeaponType.shield:
-                currTime = Time.time;
-                activeShieldBoost = true;
+                _currTime = Time.time;
+                _activeShieldBoost = true;
                 break;
         }
     }
